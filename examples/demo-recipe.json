@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "source": {
+    "width": 2400,
+    "height": 1600
+  },
+  "point": {
+    "x": 0.72,
+    "y": 0.5
+  },
+  "allowUpscale": false,
+  "format": "image/png"
+}

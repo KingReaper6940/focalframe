@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "source": {
+    "width": 2400,
+    "height": 1600
+  },
+  "point": {
+    "x": 0.72,
+    "y": 0.5
+  },
+  "allowUpscale": false,
+  "format": "image/png",
+  "crops": [
+    {
+      "preset": {
+        "id": "square",
+        "name": "Square",
+        "width": 1080,
+        "height": 1080,
+        "ratio": "1:1"
+      },
+      "source": {
+        "x": 800,
+        "y": 0,
+        "width": 1600,
+        "height": 1600
+      },
+      "scale": 0.675,
+      "upscaled": false,
+      "canExport": true
+    },
+    {
+      "preset": {
+        "id": "portrait",
+        "name": "Portrait",
+        "width": 1080,
+        "height": 1350,
+        "ratio": "4:5"
+      },
+      "source": {
+        "x": 1088,
+        "y": 0,
+        "width": 1280,
+        "height": 1600
+      },
+      "scale": 0.84375,
+      "upscaled": false,
+      "canExport": true
+    },
+    {
+      "preset": {
+        "id": "wide",
+        "name": "Wide",
+        "width": 1600,
+        "height": 900,
+        "ratio": "16:9"
+      },
+      "source": {
+        "x": 0,
+        "y": 125,
+        "width": 2400,
+        "height": 1350
+      },
+      "scale": 0.6666666666666666,
+      "upscaled": false,
+      "canExport": true
+    }
+  ]
+}

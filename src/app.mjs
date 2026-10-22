@@ -1,4 +1,4 @@
-import { encodeCrop } from './raster.mjs';
+import { encodeCrop, encodeComparison } from './raster.mjs';
 import { planAll, planCrop, validateSize, MAX_BYTES, PRESETS } from './core.mjs';
 import { readRecipe, writeRecipe, recipeReport } from './recipe.mjs';
 import { demoArtwork } from './demo.mjs';
@@ -128,10 +128,10 @@ $('crop-grid').addEventListener('click',async event=>{
     exportUrl=URL.createObjectURL(result.blob);
     const extension=result.blob.type==='image/png'?'png':'jpg';
     $('export-image').src=exportUrl;
-    $('export-image').alt=result.plan.preset.name+' prepared crop';
-    $('download').href=exportUrl;$('download').download='focalframe-'+result.plan.preset.id+'.'+extension;
+    $('export-image').alt=output.name+' prepared crop';
+    $('download').href=exportUrl;$('download').download='focalframe-'+output.id+'.'+extension;
     $('download').textContent='Download '+extension.toUpperCase()+' ↓';
-    $('export-details').textContent=result.plan.preset.name+' · '+result.plan.preset.width+' × '+result.plan.preset.height+' px · '+(result.blob.size/1024).toFixed(1)+' KiB · '+result.blob.type;
+    $('export-details').textContent=output.name+' · '+output.width+' × '+output.height+' px · '+(result.blob.size/1024).toFixed(1)+' KiB · '+result.blob.type;
     $('export-ready').hidden=false;
     announce('Export ready. Inspect the preview and use Download image to save it.');
   }catch(error){if(token===revision)announce(error.message,true);}
