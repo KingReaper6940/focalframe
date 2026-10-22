@@ -5,7 +5,7 @@ import { dirname, resolve } from 'node:path';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const output=resolve(root,'dist');
 if(dirname(output)!==root)throw new Error('Unexpected output directory.');
-const files=['index.html','style.css','favicon.svg','src/core.mjs','src/recipe.mjs','src/demo.mjs','src/app.mjs'];
+const files=['index.html','style.css','favicon.svg','src/core.mjs','src/recipe.mjs','src/demo.mjs','src/app.mjs','src/raster.mjs'];
 for(const file of files.filter(file=>file.endsWith('.mjs')))execFileSync(process.execPath,['--check',resolve(root,file)]);
 await rm(output,{recursive:true,force:true});await mkdir(resolve(output,'src'),{recursive:true});
 for(const file of files)await copyFile(resolve(root,file),resolve(output,file));

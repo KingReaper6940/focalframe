@@ -1,3 +1,4 @@
+import { encodeCrop } from './raster.mjs';
 import { planAll, planCrop, validateSize, MAX_BYTES, PRESETS } from './core.mjs';
 import { readRecipe, writeRecipe, recipeReport } from './recipe.mjs';
 import { demoArtwork } from './demo.mjs';
@@ -42,7 +43,7 @@ function render() {
     const card=cards.get(plan.preset.id);drawPreview(card.canvas,plan);
     card.status.textContent=plan.upscaled ? (plan.canExport?'Upscaling enabled · output may look softer.':'Too small for this output. Allow upscaling or use a larger image.') : 'Native resolution available · no upscaling.';
     card.status.classList.toggle('warning',plan.upscaled);
-    card.button.disabled=!plan.canExport;
+    card.button.disabled=exporting||!plan.canExport;
   }
   $('receipt').value=JSON.stringify(recipeReport(recipe()),null,2);
 }
@@ -111,4 +112,28 @@ function downloadText(text,name) {
   const link=document.createElement('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 $('save-recipe').addEventListener('click',()=>{if(source)downloadText(writeRecipe(recipe()),'focalframe-recipe.json');});
+let exporting=false;
 buildCards();loadDemo();
+
+function refreshExportButtons() {
+  if(!source)return;
+  for(const plan of planAll(source.width,source.height,point,$('upscale').checked))cards.get(plan.preset.id).button.disabled=exporting||!plan.canExport;
+}
+$('crop-grid').addEventListener('click',async event=>{
+  const button=event.target.closest('button[data-preset]');if(!button||exporting||!source)return;
+  invalidateExport();const token=revision;exporting=true;refreshExportButtons();announce('Preparing crop locally…');
+  try {
+    const result=await encodeCrop(source,point,button.dataset.preset,$('upscale').checked,$('format').value);
+    if(token!==revision)return;
+    exportUrl=URL.createObjectURL(result.blob);
+    const extension=result.blob.type==='image/png'?'png':'jpg';
+    $('export-image').src=exportUrl;
+    $('export-image').alt=result.plan.preset.name+' prepared crop';
+    $('download').href=exportUrl;$('download').download='focalframe-'+result.plan.preset.id+'.'+extension;
+    $('download').textContent='Download '+extension.toUpperCase()+' ↓';
+    $('export-details').textContent=result.plan.preset.name+' · '+result.plan.preset.width+' × '+result.plan.preset.height+' px · '+(result.blob.size/1024).toFixed(1)+' KiB · '+result.blob.type;
+    $('export-ready').hidden=false;
+    announce('Export ready. Inspect the preview and use Download image to save it.');
+  }catch(error){if(token===revision)announce(error.message,true);}
+  finally{exporting=false;refreshExportButtons();}
+});

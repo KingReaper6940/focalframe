@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Manual focal-point crops with side-by-side formats and portable crop recipes.",
   "scripts": {
-    "test": "node --test test/core.test.mjs test/recipe.test.mjs",
+    "test": "node --test test/core.test.mjs test/recipe.test.mjs test/raster.test.mjs",
     "build": "node scripts/build.mjs",
     "dev": "node scripts/serve.mjs"
   },
