@@ -117,13 +117,15 @@ buildCards();loadDemo();
 
 function refreshExportButtons() {
   if(!source)return;
+  $('comparison').disabled=exporting;
   for(const plan of planAll(source.width,source.height,point,$('upscale').checked))cards.get(plan.preset.id).button.disabled=exporting||!plan.canExport;
 }
-$('crop-grid').addEventListener('click',async event=>{
+$('outputs-section').addEventListener('click',async event=>{
   const button=event.target.closest('button[data-preset]');if(!button||exporting||!source)return;
   invalidateExport();const token=revision;exporting=true;refreshExportButtons();announce('Preparing crop locally…');
   try {
-    const result=await encodeCrop(source,point,button.dataset.preset,$('upscale').checked,$('format').value);
+    const result=button.dataset.preset==='comparison' ? await encodeComparison(source,point) : await encodeCrop(source,point,button.dataset.preset,$('upscale').checked,$('format').value);
+    const output=result.output ?? result.plan.preset;
     if(token!==revision)return;
     exportUrl=URL.createObjectURL(result.blob);
     const extension=result.blob.type==='image/png'?'png':'jpg';
