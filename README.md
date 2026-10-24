@@ -1,5 +1,7 @@
 # Focalframe
 
+[Open focalframe](https://focalframe.vercel.app)
+
 **Keep what matters in every frame.**
 
 Set one focal point, then compare square, portrait, and wide crops side by side. Export full-resolution images, save a reusable crop recipe, or prepare a labelled comparison sheet for a creative handoff. Everything runs locally in the browser.
@@ -112,7 +114,7 @@ Import this GitHub repository with:
 | Output directory | `dist` |
 | Install command | Empty; no dependencies |
 
-`vercel.json` includes these settings. No environment variables, database, server functions, or paid APIs are required. No live deployment URL is advertised. You can also serve `dist/` on another static host that serves `.mjs` files as JavaScript.
+`vercel.json` includes these settings. No environment variables, database, server functions, or paid APIs are required. You can also serve `dist/` on another static host that serves `.mjs` files as JavaScript.
 
 ## Structure and references
 
